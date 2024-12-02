@@ -1,5 +1,6 @@
 @advent = {
   1 => [:distance, :similarity],
+  2 => [:safety, :more_safety]
 }
 
 def execute_day(day)
