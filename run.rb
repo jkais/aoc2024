@@ -2,6 +2,7 @@
   1 => [:distance, :similarity],
   2 => [:safety, :more_safety],
   3 => [:mult, :mult_with_do],
+  4 => [:find_xmas, :find_mas],
 }
 
 def execute_day(day)
@@ -14,11 +15,13 @@ def execute_day(day)
     puts
     puts "Test Data:"
     puts send(method, "#{day}/test.txt")
-    puts
-    puts "Real Data:"
-    puts send(method, "#{day}/data.txt")
-    puts
-    puts
+    if ARGV[0] != "test"
+      puts
+      puts "Real Data:"
+      puts send(method, "#{day}/data.txt")
+      puts
+      puts
+    end
   end
 end
 
