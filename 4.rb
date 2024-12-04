@@ -22,42 +22,58 @@ def xmas_at(matrix, x, y)
   return 0 if letter_at(matrix, x, y) != "X"
 
   #left
-  if letter_at(matrix, x, y - 1) == "M" && letter_at(matrix, x, y - 2) == "A" && letter_at(matrix, x, y - 3) == "S"
+  if letter_at(matrix, x, y - 1) == "M" &&
+     letter_at(matrix, x, y - 2) == "A" &&
+     letter_at(matrix, x, y - 3) == "S"
     count += 1
   end
 
   #right
-  if letter_at(matrix, x, y + 1) == "M" && letter_at(matrix, x, y + 2) == "A" && letter_at(matrix, x, y + 3) == "S"
+  if letter_at(matrix, x, y + 1) == "M" &&
+     letter_at(matrix, x, y + 2) == "A" &&
+     letter_at(matrix, x, y + 3) == "S"
     count += 1
   end
 
   #up
-  if letter_at(matrix, x - 1, y) == "M" && letter_at(matrix, x - 2, y) == "A" && letter_at(matrix, x - 3, y) == "S"
+  if letter_at(matrix, x - 1, y) == "M" &&
+     letter_at(matrix, x - 2, y) == "A" &&
+     letter_at(matrix, x - 3, y) == "S"
     count += 1
   end
 
   #down
-  if letter_at(matrix, x + 1, y) == "M" && letter_at(matrix, x + 2, y) == "A" && letter_at(matrix, x + 3, y) == "S"
+  if letter_at(matrix, x + 1, y) == "M" &&
+     letter_at(matrix, x + 2, y) == "A" &&
+     letter_at(matrix, x + 3, y) == "S"
     count += 1
   end
 
-  #topleft
-  if letter_at(matrix, x - 1, y - 1) == "M" && letter_at(matrix, x - 2, y - 2) == "A" && letter_at(matrix, x - 3, y - 3) == "S"
+  #top left
+  if letter_at(matrix, x - 1, y - 1) == "M" &&
+     letter_at(matrix, x - 2, y - 2) == "A" &&
+     letter_at(matrix, x - 3, y - 3) == "S"
     count += 1
   end
 
-  #topright
-  if letter_at(matrix, x + 1, y - 1) == "M" && letter_at(matrix, x + 2, y - 2) == "A" && letter_at(matrix, x + 3, y - 3) == "S"
+  #top right
+  if letter_at(matrix, x + 1, y - 1) == "M" &&
+     letter_at(matrix, x + 2, y - 2) == "A" &&
+     letter_at(matrix, x + 3, y - 3) == "S"
     count += 1
   end
 
-  #bottomleft
-  if letter_at(matrix, x - 1, y + 1) == "M" && letter_at(matrix, x - 2, y + 2) == "A" && letter_at(matrix, x - 3, y + 3) == "S"
+  #bottom left
+  if letter_at(matrix, x - 1, y + 1) == "M" &&
+     letter_at(matrix, x - 2, y + 2) == "A" &&
+     letter_at(matrix, x - 3, y + 3) == "S"
     count += 1
   end
 
-  #bottomright
-  if letter_at(matrix, x + 1, y + 1) == "M" && letter_at(matrix, x + 2, y + 2) == "A" && letter_at(matrix, x + 3, y + 3) == "S"
+  #bottom right
+  if letter_at(matrix, x + 1, y + 1) == "M" &&
+     letter_at(matrix, x + 2, y + 2) == "A" &&
+     letter_at(matrix, x + 3, y + 3) == "S"
     count += 1
   end
 
