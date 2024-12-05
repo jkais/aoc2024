@@ -3,6 +3,7 @@
   2 => [:safety, :more_safety],
   3 => [:mult, :mult_with_do],
   4 => [:find_xmas, :find_mas],
+  5 => [:print_correct, :print_incorrect],
 }
 
 def execute_day(day)
