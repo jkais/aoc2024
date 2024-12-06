@@ -4,6 +4,7 @@
   3 => [:mult, :mult_with_do],
   4 => [:find_xmas, :find_mas],
   5 => [:print_correct, :print_incorrect],
+  6 => [:path, :circles],
 }
 
 def execute_day(day)
