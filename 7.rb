@@ -1,12 +1,12 @@
 def calc(filename)
-  calc_with_or_with_combine(filename)
+  calc_with_or_without_combine(filename)
 end
 
 def calc_with_combine(filename)
-  calc_with_or_with_combine(filename, with_combine: true)
+  calc_with_or_without_combine(filename, with_combine: true)
 end
 
-def calc_with_or_with_combine(filename, with_combine: false)
+def calc_with_or_without_combine(filename, with_combine: false)
   result = 0
 
   equations = {}
