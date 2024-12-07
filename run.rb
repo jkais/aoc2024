@@ -5,6 +5,7 @@
   4 => [:find_xmas, :find_mas],
   5 => [:print_correct, :print_incorrect],
   6 => [:path, :circles],
+  7 => [:calc, :calc_with_combine],
 }
 
 def execute_day(day)
@@ -14,14 +15,12 @@ def execute_day(day)
   methods.each do |method|
     puts "DAY #{day} - #{method}"
     puts "=" * (day.to_s.length + method.length + 7)
-    puts
     puts "Test Data:"
     puts send(method, "#{day}/test.txt")
+    puts
     if ARGV[0] != "test"
-      puts
       puts "Real Data:"
       puts send(method, "#{day}/data.txt")
-      puts
       puts
     end
   end
