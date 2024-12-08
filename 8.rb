@@ -37,8 +37,6 @@ def nodes(filename, harmonic: false)
     matrix[node[0]][node[1]] = "#"
   end
 
-  print_matrix(matrix)
-
   return nodes.size
 end
 
