@@ -6,6 +6,7 @@
   5 => [:print_correct, :print_incorrect],
   6 => [:path, :circles],
   7 => [:calc, :calc_with_combine],
+  8 => [:antinodes, :harmonicnodes],
 }
 
 def execute_day(day)
