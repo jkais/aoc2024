@@ -24,20 +24,12 @@ def nodes(filename, harmonic: false)
   lines = antennas.values.map { |antenna| antenna.combination(2).to_a }.flatten(1)
 
   lines.each do |line|
-    line_nodes = calculate_nodes(line, matrix, harmonic)
-
-    line_nodes.each do |node|
+    calculate_nodes(line, matrix, harmonic).each do |node|
       nodes << node
     end
   end
 
-  nodes.uniq!
-
-  nodes.each do |node|
-    matrix[node[0]][node[1]] = "#"
-  end
-
-  return nodes.size
+  return nodes.uniq.size
 end
 
 def calculate_nodes(line, matrix, harmonic)
