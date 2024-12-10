@@ -7,6 +7,8 @@
   6 => [:path, :circles],
   7 => [:calc, :calc_with_combine],
   8 => [:antinodes, :harmonicnodes],
+  9 => [:checksum, :checksum2],
+  10 => [:score],
 }
 
 def execute_day(day)
