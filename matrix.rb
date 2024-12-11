@@ -1,3 +1,5 @@
+require "rainbow"
+
 def to_matrix(filename)
   matrix = []
 
@@ -33,6 +35,14 @@ class Matrix
   def at(x, y)
     return nil unless inside?(x, y)
     @matrix[y][x]
+  end
+
+  def set(x, y, value)
+    @matrix[y][x] = value
+  end
+
+  def highlight(x, y)
+    set(x, y, Rainbow(at(x,y)).red)
   end
 
   def inside?(x, y)
