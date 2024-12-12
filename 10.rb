@@ -9,7 +9,6 @@ def score(filename)
   for y in 0.upto(map.size_y - 1) do
     for x in 0.upto(map.size_x - 1) do
       if map.at(x, y) == 0
-        puts "TRAIL"
         result += trailhead_score(map, x, y, 0)
       end
     end
@@ -25,12 +24,12 @@ def trailhead_score(map, x, y, current, path=[])
   path << [x, y]
 
   if current == 9
-    m = Matrix.new("10/test.txt", as_integer: true)
-    path.each do |p|
-      m.highlight(*p)
-    end
-    m.print
-    puts
+    #m = Matrix.new("10/test.txt", as_integer: true)
+    #path.each do |p|
+    #  m.highlight(*p)
+    # end
+    #m.print
+    puts path[0].to_s + ":" + path[9].to_s
     return 1
   end
 
