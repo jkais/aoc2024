@@ -9,6 +9,7 @@
   8 => [:antinodes, :harmonicnodes],
   9 => [:checksum, :checksum2],
   10 => [:score],
+  11 => [:blink25, :blink75],
 }
 
 def execute_day(day)
