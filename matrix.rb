@@ -1,25 +1,5 @@
 require "rainbow"
 
-def to_matrix(filename)
-  matrix = []
-
-  File.readlines(filename).each do |line|
-    matrix << line.chomp.split("")
-  end
-
-  return matrix
-end
-
-def inside?(matrix, point)
-  point[0] >= 0 && point[1] >= 0 && point[0] < matrix.size && point[1] < matrix[0].size
-end
-
-def print_matrix(matrix)
-  matrix.each do |line|
-    puts line.join("")
-  end
-end
-
 class Matrix
   def initialize(filename, as_integer: false)
     @matrix = []
@@ -57,15 +37,15 @@ class Matrix
     end
   end
 
-  def areas
-    a = []
+  def neighbors(x, y, also_outside: false)
+    neighbors = [
+      [x + 1, y]
+      [x - 1, y]
+      [x, y + 1]
+      [x, y - 1]
+    ]
 
-    todo = Array.new(size_y) { Array.new(size_x, true) }
-
-    while(todo.flatten.any?(true))
-      x, y = find_next(todo, true)
-      todo[y][x] = false
-    end
+    return also_outside ? neighbors : neighbors.select { |point| inside?(*point) }
   end
 
   def size_y
@@ -77,13 +57,4 @@ class Matrix
   end
 
   private
-
-  def find_next(array, value)
-    array.each_with_index do |row, y|
-      next unless row.any?(value)
-      row.each_with_index do |cell, x|
-        return [x, y] if cell == value
-      end
-    end
-  end
 end
