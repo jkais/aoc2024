@@ -10,6 +10,7 @@
   9 => [:checksum, :checksum2],
   10 => [:score],
   11 => [:blink25, :blink75],
+  12 => [:price],
 }
 
 def execute_day(day)

@@ -57,11 +57,33 @@ class Matrix
     end
   end
 
+  def areas
+    a = []
+
+    todo = Array.new(size_y) { Array.new(size_x, true) }
+
+    while(todo.flatten.any?(true))
+      x, y = find_next(todo, true)
+      todo[y][x] = false
+    end
+  end
+
   def size_y
     @matrix.size
   end
 
   def size_x
     @matrix[0].size
+  end
+
+  private
+
+  def find_next(array, value)
+    array.each_with_index do |row, y|
+      next unless row.any?(value)
+      row.each_with_index do |cell, x|
+        return [x, y] if cell == value
+      end
+    end
   end
 end
