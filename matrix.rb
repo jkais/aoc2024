@@ -29,20 +29,21 @@ class Matrix
     x >= 0 && y >= 0 && x < size_x && y < size_y
   end
 
-  def print
-    puts "  | " + (0..(size_x - 1)).to_a.join(" ")
-    puts "---" + "-" * size_x * 2
-    @matrix.each_with_index do |line, index|
+  def print(matrix = nil)
+    matrix ||= @matrix
+    puts "  | " + (0..(matrix[0].size - 1)).to_a.join(" ")
+    puts "---" + "-" * matrix[0].size * 2
+    matrix.each_with_index do |line, index|
       puts index.to_s + " | " + line.join(" ")
     end
   end
 
   def neighbors(x, y, also_outside: false)
     neighbors = [
-      [x + 1, y]
-      [x - 1, y]
-      [x, y + 1]
-      [x, y - 1]
+      [x + 1, y],
+      [x - 1, y],
+      [x, y + 1],
+      [x, y - 1],
     ]
 
     return also_outside ? neighbors : neighbors.select { |point| inside?(*point) }
