@@ -11,6 +11,7 @@
   10 => [:score],
   11 => [:blink25, :blink75],
   12 => [:price],
+  13 => [:amount],
 }
 
 def execute_day(day)
