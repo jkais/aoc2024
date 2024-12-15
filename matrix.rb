@@ -12,6 +12,10 @@ class Matrix
     end
   end
 
+  def set_matrix(m)
+    @matrix = m
+  end
+
   def at(x, y)
     return nil unless inside?(x, y)
     @matrix[y][x]

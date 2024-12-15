@@ -12,6 +12,7 @@
   11 => [:blink25, :blink75],
   12 => [:price],
   13 => [:amount],
+  14 => [:robots],
   15 => [:swim],
 }
 
