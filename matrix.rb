@@ -1,9 +1,9 @@
 require "rainbow"
 
 class Matrix
-  def initialize(filename, as_integer: false)
+  def initialize(data, as_integer: false, file: true)
     @matrix = []
-    File.readlines(filename).each do |line|
+    (file ? File.readlines(data) : data).each do |line|
       if as_integer
         @matrix << line.chomp.split("").map(&:to_i)
       else
