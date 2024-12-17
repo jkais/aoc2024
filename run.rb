@@ -10,7 +10,7 @@
   9 => [:checksum, :checksum2],
   10 => [:score],
   11 => [:blink25, :blink75],
-  12 => [:price],
+  12 => [:price, :price_discount],
   13 => [:amount],
   14 => [:robots, :xmas],
   15 => [:swim],

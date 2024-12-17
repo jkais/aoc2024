@@ -13,6 +13,101 @@ def price(filename)
   return price
 end
 
+def price_discount(filename)
+  price = 0
+  map = Matrix.new(filename)
+
+  areas = map.areas
+
+  areas.each do |area|
+    price += price_discount_for(area, map)
+  end
+
+  return price
+end
+
+def price_discount_for(a, map)
+
+  area = a.count
+  value = map.at(*a[0])
+
+  perimeter = 0
+
+  # LEFT
+  left_perimeters = []
+  a.each do |point|
+    left_perimeters << point if map.at(point[0] - 1, point[1]) != value
+  end
+
+  slices = left_perimeters.map {|p| p[0] }.uniq
+
+  slices.each do |slice|
+    pieces = left_perimeters.select { |p| p[0] == slice }.map { |p| p[1] }.sort
+    previous = pieces.first
+
+    pieces.each do |piece|
+      perimeter += 1 if piece - previous != 1
+      previous = piece
+    end
+  end
+
+  # RIGHT
+  right_perimeters = []
+  a.each do |point|
+    right_perimeters << point if map.at(point[0] + 1, point[1]) != value
+  end
+
+  slices = right_perimeters.map {|p| p[0] }.uniq
+
+  slices.each do |slice|
+    pieces = right_perimeters.select { |p| p[0] == slice }.map { |p| p[1] }.sort
+    previous = pieces.first
+
+    pieces.each do |piece|
+      perimeter += 1 if piece - previous != 1
+      previous = piece
+    end
+  end
+
+  # TOP
+  top_perimeters = []
+  a.each do |point|
+    top_perimeters << point if map.at(point[0], point[1] - 1) != value
+  end
+
+  slices = top_perimeters.map {|p| p[1] }.uniq
+
+  slices.each do |slice|
+    pieces = top_perimeters.select { |p| p[1] == slice }.map { |p| p[0] }.sort
+    previous = pieces.first
+
+    pieces.each do |piece|
+      perimeter += 1 if (piece - previous != 1)
+      previous = piece
+    end
+  end
+
+  # BOTTOM
+  bottom_perimeters = []
+  a.each do |point|
+    bottom_perimeters << point if map.at(point[0], point[1] + 1) != value
+  end
+
+  slices = bottom_perimeters.map {|p| p[1] }.uniq
+
+  slices.each do |slice|
+    pieces = bottom_perimeters.select { |p| p[1] == slice }.map { |p| p[0] }.sort
+    previous = pieces.first
+
+    pieces.each do |piece|
+      perimeter += 1 if piece - previous != 1
+      previous = piece
+    end
+  end
+
+  price = area * perimeter
+end
+
 def price_for(a, map)
 
   area = a.count
