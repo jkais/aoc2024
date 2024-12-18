@@ -53,6 +53,15 @@ class Matrix
     return also_outside ? neighbors : neighbors.select { |point| inside?(*point) }
   end
 
+  def find(value)
+    @matrix.each_with_index do |row, y|
+      row.each_with_index do |col, x|
+        return [x, y] if col == value
+      end
+    end
+    return [nil, nil]
+  end
+
   def size_y
     @matrix.size
   end
