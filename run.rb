@@ -14,6 +14,11 @@
   13 => [:amount],
   14 => [:robots, :xmas],
   15 => [:swim],
+  16 => [:path],
+  #17 => [:run, :lowest],
+  #18 => [:safe],
+  19 => [:towels],
+
 }
 
 def execute_day(day)
