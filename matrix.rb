@@ -33,13 +33,16 @@ class Matrix
     x >= 0 && y >= 0 && x < size_x && y < size_y
   end
 
-  def print(matrix = nil)
+  def print(matrix = nil, highlight: nil)
     y_size = size_y.to_s.size
-    puts y_size
     matrix ||= @matrix
     puts "".rjust(y_size) + " | " + (0..(matrix[0].size - 1)).to_a.join(" ")
     puts "-".rjust(y_size, "-") + + "-" * (2 + matrix[0].size * 2)
     matrix.each_with_index do |line, index|
+      if highlight && highlight[1] == index
+        line = line.dup
+        line[highlight[0]] = Rainbow(line[highlight[0]]).red
+      end
       puts index.to_s.rjust(y_size) + " | " + line.join(" ")
     end
   end

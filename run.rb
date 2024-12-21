@@ -18,6 +18,7 @@
   #17 => [:run, :lowest],
   #18 => [:safe],
   19 => [:towels],
+  21 => [:sequence],
 
 }
 
