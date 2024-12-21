@@ -33,24 +33,20 @@ def sequence(filename)
         cont.each do |char|
           controlpad.press char
         end
+
+        solutions_for(controlpad.log).each do |s|
+          solutions << s
+        end
       end
 
-      solutions_for(controlpad.log).each do |s|
-        solutions << s
-      end
     end
     solution = solutions.sort {|s| s.size }.first.join("")
 
-    solutions.each do |s|
-      puts "Check: " + code.join("") unless check_input(s.join(""), code.join(""))
-    end
-
     min = solutions.map(&:size).min
+    time
 
-    puts "#{code.join("")}: #{min} * #{code.join("").to_i}"
-    result += (min-2) * code.join("").to_i
+    result += min * code.join("").to_i
   end
-  puts "Check: " + check_input("<vA<AA>>^AvAA<^A>A<v<A>>^AvA^A<vA>^A<v<A>^A>AAvA^A<v<A>A>^AAAvA<^A>A", "029A").to_s
 
   return result
 
