@@ -27,14 +27,18 @@ def execute_day(day)
   methods = @advent[day]
 
   methods.each do |method|
+    t = Time.now
     puts "DAY #{day} - #{method}"
     puts "=" * (day.to_s.length + method.length + 7)
     puts "Test Data:"
     puts send(method, "#{day}/test.txt")
+    puts "Took " + (Time.now - t).to_s + "s"
     puts
     if ARGV[0] != "test"
+      t = Time.now
       puts "Real Data:"
       puts send(method, "#{day}/data.txt")
+      puts "Took " + (Time.now - t).to_s + "s"
       puts
     end
   end

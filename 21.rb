@@ -7,26 +7,58 @@ def sequence(filename)
 
   codes = File.read(filename).split("\n").map { |code| code.split("") }
 
+
   codes.each do |code|
     numpad.reset!
     code.each do |char|
       numpad.press char
     end
-    log = numpad.log
-    2.times do
+
+    numpad_solutions = solutions_for(numpad.log)
+
+    solutions = []
+
+    numpad_solutions.each do |num|
       controlpad.reset!
-      log.each do |char|
+
+      num.each do |char|
         controlpad.press char
       end
-      log = controlpad.log
-    end
-    result += log.size * code.join("").to_i
-    break
-  end
 
-  #puts check_input("<v<A>>^A<vA<A>>^AAvAA<^A>A<v<A>>^AAvA^A<vA>^AA<A>A<v<A>A>^AAAvA<^A>A", "179A")
+      c1_solutions = solutions_for(controlpad.log)
+
+      c1_solutions.each do |cont|
+        controlpad.reset!
+
+        cont.each do |char|
+          controlpad.press char
+        end
+      end
+
+      solutions_for(controlpad.log).each do |s|
+        solutions << s
+      end
+    end
+    solution = solutions.sort {|s| s.size }.first.join("")
+
+    solutions.each do |s|
+      puts "Check: " + code.join("") unless check_input(s.join(""), code.join(""))
+    end
+
+    min = solutions.map(&:size).min
+
+    puts "#{code.join("")}: #{min} * #{code.join("").to_i}"
+    result += (min-2) * code.join("").to_i
+  end
+  puts "Check: " + check_input("<vA<AA>>^AvAA<^A>A<v<A>>^AvA^A<vA>^A<v<A>^A>AAvA^A<v<A>A>^AAAvA<^A>A", "029A").to_s
 
   return result
+
+end
+
+def check_numpad(input, code)
+  controls = Numpad.new.process input
+  controls == code
 end
 
 def check_input(input, code)
@@ -38,12 +70,55 @@ def check_input(input, code)
   controls == code
 end
 
+def solutions_for(log)
+  solutions = [[]]
+
+  log.each do |entry|
+    if entry.is_a? Array
+      solutions = solutions.product(entry).map { |a, b| a + b }
+    else
+      solutions.each do |solution|
+        solution << entry
+      end
+    end
+  end
+
+  return solutions
+end
+
 class Pad
   attr_accessor :matrix, :log
 
   def initialize
     @matrix = Matrix.new(input.split("\n"), file: false)
     reset!
+  end
+
+  def reset!
+    @x, @y = matrix.find("A")
+    @log = []
+  end
+
+  def press(key)
+    x, y = matrix.find(key)
+    moves = moves_for(x,y)
+
+    if moves.size == 1
+      moves.flatten.each do |move|
+        @log << move
+      end
+    else
+      @log << moves
+    end
+    @log << "A"
+
+    @x, @y = x, y
+  end
+
+  def print
+    matrix.print(highlight: [@x, @y])
+    puts
+    puts "Log: #{@log}"
   end
 
   def process(code)
@@ -61,43 +136,68 @@ class Pad
         @y = @y + 1
       when "A"
         result += matrix.at(@x,@y)
+      when " "
+        print
+        exit!
       end
     end
 
     return result
   end
 
-  def reset!
-    @x, @y = matrix.find("A")
-    @log = []
-  end
-
-  def press(key)
-    x, y = matrix.find(key)
-    @log << moves_for(x, y)
-    @log.flatten!
-
-    @x, @y = x, y
-  end
-
-  def print
-    matrix.print(highlight: [@x, @y])
-    puts
-    puts "Log: #{@log}"
-  end
 
   private
 
   def moves_for(x, y)
-    moves = []
-    dx = @x - x
-    dy = @y - y
-    moves << ((dx > 0) ? "<"*dx.abs : ">"*dx.abs).split("")
-    moves << ((dy > 0) ? "^"*dy.abs : "v"*dy.abs).split("")
-    moves << "A"
+    dx = x - @x
+    dy = y - @y
 
-    moves.flatten!
+    directions = []
+
+    dx.abs.times do
+      directions << [dx <=> 0, 0]
+    end
+
+    dy.abs.times do
+      directions << [0, dy <=> 0]
+    end
+
+    possible_moves = directions.permutation(directions.size).to_a.uniq
+
+    # remove all moves that go over the gap
+    possible_moves.select! { |m| not_over_gap? m }
+
+    result = possible_moves.map { |m|
+      m.map { |point|
+        case point
+        when [1, 0]
+          ">"
+        when [-1,0]
+          "<"
+        when [0,1]
+          "v"
+        when [0,-1]
+          "^"
+        end
+      }
+    }
+
+    return result
   end
+
+  def not_over_gap?(moves)
+    new_x = @x
+    new_y = @y
+
+    moves.each do |move|
+      new_x += move[0]
+      new_y += move[1]
+      return false if matrix.at(new_x, new_y) == " "
+    end
+
+    return true
+  end
+
 end
 
 class Numpad < Pad
