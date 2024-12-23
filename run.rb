@@ -15,11 +15,12 @@
   14 => [:robots, :xmas],
   15 => [:swim],
   16 => [:path],
-  #17 => [:run, :lowest],
-  #18 => [:safe],
+  17 => [:run, :lowest],
+  18 => [:safe],
   19 => [:towels],
   21 => [:sequence, :sequence25],
-  22 => [:price]
+  22 => [:price],
+  23 => [:computers],
 }
 
 def execute_day(day)
@@ -34,7 +35,7 @@ def execute_day(day)
     puts send(method, "#{day}/test.txt")
     puts "Took " + (Time.now - t).to_s + "s"
     puts
-    if ARGV[0] != "test"
+    if ARGV[0] != "test" && ARGV[0] != "test"
       t = Time.now
       puts "Real Data:"
       puts send(method, "#{day}/data.txt")
