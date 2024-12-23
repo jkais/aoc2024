@@ -18,8 +18,8 @@
   #17 => [:run, :lowest],
   #18 => [:safe],
   19 => [:towels],
-  21 => [:sequence],
-
+  21 => [:sequence, :sequence25],
+  22 => [:price]
 }
 
 def execute_day(day)

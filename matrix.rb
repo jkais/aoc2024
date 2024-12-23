@@ -1,4 +1,5 @@
 require "rainbow"
+require_relative "time"
 
 class Matrix
   def initialize(data, as_integer: false, file: true)
