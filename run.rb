@@ -1,3 +1,5 @@
+require_relative "time"
+
 @advent = {
   1 => [:distance, :similarity],
   2 => [:safety, :more_safety],
@@ -19,8 +21,9 @@
   18 => [:safe],
   19 => [:towels],
   21 => [:sequence, :sequence25],
-  22 => [:price],
+  22 => [:random, :price],
   23 => [:computers],
+  24 => [:zvalue],
 }
 
 def execute_day(day)
@@ -28,18 +31,16 @@ def execute_day(day)
   methods = @advent[day]
 
   methods.each do |method|
-    t = Time.now
     puts "DAY #{day} - #{method}"
     puts "=" * (day.to_s.length + method.length + 7)
     puts "Test Data:"
     puts send(method, "#{day}/test.txt")
-    puts "Took " + (Time.now - t).to_s + "s"
+    time
     puts
-    if ARGV[0] != "test" && ARGV[0] != "test"
-      t = Time.now
+    if ARGV[0] != "test" && ARGV[2] != "test"
       puts "Real Data:"
       puts send(method, "#{day}/data.txt")
-      puts "Took " + (Time.now - t).to_s + "s"
+      time
       puts
     end
   end
