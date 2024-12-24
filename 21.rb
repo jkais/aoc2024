@@ -1,12 +1,55 @@
 require_relative "matrix"
 
-def sequence(filename)
+def sequence25(filename)
   result = 0
   numpad = Numpad.new
   controlpad = Controlpad.new
 
   codes = File.read(filename).split("\n").map { |code| code.split("") }
 
+  codes.each do |code|
+    numpad.reset!
+    code.each do |char|
+      numpad.press char
+    end
+
+    solutions = solutions_for(numpad.log)
+
+    new_solutions = []
+
+   2.times do |i|
+      solutions.each do |solution|
+        new_solutions = []
+        controlpad.reset!
+
+        solution.each do |char|
+          controlpad.press char
+        end
+
+        new_solutions << controlpad.log
+      end
+      solutions = new_solutions
+    end
+
+    solution = solutions.sort {|s| s.size }.first.join("")
+    puts code.join("") + ": " + solution
+
+    min = solutions.map(&:size).min
+    time
+
+    result += min * code.join("").to_i
+  end
+
+  return result
+end
+
+def sequence(filename)
+  return 0
+  result = 0
+  numpad = Numpad.new
+  controlpad = Controlpad.new
+
+  codes = File.read(filename).split("\n").map { |code| code.split("") }
 
   codes.each do |code|
     numpad.reset!
@@ -40,6 +83,7 @@ def sequence(filename)
       end
 
     end
+
     solution = solutions.sort {|s| s.size }.first.join("")
 
     min = solutions.map(&:size).min
@@ -50,20 +94,6 @@ def sequence(filename)
 
   return result
 
-end
-
-def check_numpad(input, code)
-  controls = Numpad.new.process input
-  controls == code
-end
-
-def check_input(input, code)
-  controlpad = Controlpad.new
-  numpad = Numpad.new
-  controls = controlpad.process input
-  controls = controlpad.process controls
-  controls = numpad.process controls
-  controls == code
 end
 
 def solutions_for(log)
@@ -97,7 +127,7 @@ class Pad
 
   def press(key)
     x, y = matrix.find(key)
-    moves = moves_for(x,y)
+    moves = moves_for(x, y)
 
     if moves.size == 1
       moves.flatten.each do |move|
@@ -113,14 +143,15 @@ class Pad
 
   def print
     matrix.print(highlight: [@x, @y])
-    puts
     puts "Log: #{@log}"
+    puts
   end
 
   def process(code)
     result = ""
     reset!
     code.split("").each do |move|
+      puts move
       case move
       when "<"
         @x = @x - 1
@@ -136,11 +167,11 @@ class Pad
         print
         exit!
       end
+      print
     end
 
     return result
   end
-
 
   private
 
@@ -210,7 +241,116 @@ class Numpad < Pad
 end
 
 class Controlpad < Pad
+  def press(key)
+    x, y = matrix.find(key)
+    moves = moves_for(x, y)
+
+    moves.flatten.each do |move|
+      @log << move
+    end
+
+    @x, @y = x, y
+  end
+
   private
+
+  def moves_for(x, y)
+    at = matrix.at(@x, @y)
+    key = matrix.at(x, y)
+
+    sequence =
+      case at
+      when "^"
+        move_from_up(key)
+      when "A"
+        move_from_A(key)
+      when "<"
+        move_from_left(key)
+      when "v"
+        move_from_down(key)
+      when ">"
+        move_from_right(key)
+      end.split("")
+
+    sequence.each do |s|
+      @log << s
+    end
+  end
+
+  def move_from_up(key)
+    case key
+    when "^"
+      "^A"
+    when "A"
+      ">A"
+    when "<"
+      "v<A"
+    when "v"
+      "vA"
+    when ">"
+      "v>A"
+    end
+  end
+
+  def move_from_A(key)
+    case key
+    when "^"
+      "^A"
+    when "A"
+      "A"
+    when "<"
+      "v<<A"
+    when "v"
+      "v<A"
+    when ">"
+      "vA"
+    end
+  end
+
+  def move_from_left(key)
+    case key
+    when "^"
+      ">^A"
+    when "A"
+      ">>^A"
+    when "<"
+      "A"
+    when "v"
+      ">A"
+    when ">"
+      ">>A"
+    end
+  end
+
+  def move_from_down(key)
+    case key
+    when "^"
+      "^A"
+    when "A"
+      ">^A"
+    when "<"
+      "<A"
+    when "v"
+      "A"
+    when ">"
+      ">A"
+    end
+  end
+
+  def move_from_right(key)
+    case key
+    when "^"
+      "<^A"
+    when "A"
+      "^A"
+    when "<"
+      "<<A"
+    when "v"
+      "<A"
+    when ">"
+      "A"
+    end
+  end
 
   def input
     <<~HEREDOC
